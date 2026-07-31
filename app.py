@@ -379,11 +379,7 @@ def main():
         button_primary_background_fill_hover="#E60000",
     )
 
-    with gr.Blocks(
-        title="UL Lafayette RAG Assistant",
-        theme=theme,
-        css=ULL_CSS,
-    ) as ui:
+    with gr.Blocks(title="UL Lafayette RAG Assistant") as ui:
 
         # ── Header ───────────────────────────────────────────────────────
         gr.HTML("""
@@ -545,8 +541,9 @@ def main():
         server_port=int(os.getenv("GRADIO_SERVER_PORT", "7860")),
         share=False,
         inbrowser=False,
-        show_api=False,
         auth=auth,
+        theme=theme,
+        css=ULL_CSS,
     )
 
 
