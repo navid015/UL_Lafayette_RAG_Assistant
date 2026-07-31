@@ -1,3 +1,4 @@
+import os
 import gradio as gr
 from dotenv import load_dotenv
 from pro_implementation.answer import answer_question
@@ -378,7 +379,11 @@ def main():
         button_primary_background_fill_hover="#E60000",
     )
 
-    with gr.Blocks(title="UL Lafayette RAG Assistant") as ui:
+    with gr.Blocks(
+        title="UL Lafayette RAG Assistant",
+        theme=theme,
+        css=ULL_CSS,
+    ) as ui:
 
         # ── Header ───────────────────────────────────────────────────────
         gr.HTML("""
@@ -526,7 +531,23 @@ def main():
             outputs=[history_state, chatbot, context_display],
         )
 
-    ui.launch(inbrowser=True, share=False, theme=theme, css=ULL_CSS)
+    # HF Spaces needs 0.0.0.0; on EC2 we bind to loopback and let Nginx face the internet
+    default_host = "0.0.0.0" if os.getenv("SPACE_ID") else "127.0.0.1"
+
+    auth = None
+    app_user = os.getenv("APP_USER")
+    app_password = os.getenv("APP_PASSWORD")
+    if app_user and app_password:
+        auth = (app_user, app_password)
+
+    ui.launch(
+        server_name=os.getenv("GRADIO_SERVER_NAME", default_host),
+        server_port=int(os.getenv("GRADIO_SERVER_PORT", "7860")),
+        share=False,
+        inbrowser=False,
+        show_api=False,
+        auth=auth,
+    )
 
 
 if __name__ == "__main__":
