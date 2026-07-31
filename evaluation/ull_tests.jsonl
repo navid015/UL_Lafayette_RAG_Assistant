@@ -1,7 +1,4 @@
-{"question": "When was the University of Louisiana at Lafayette founded?", 
-"keywords": ["1898", "founded"], 
-"reference_answer": "The University of Louisiana at Lafayette was founded in 1898 as the Southwestern Louisiana Industrial Institute (SLII).", 
-"category": "direct_fact"}
+{"question": "When was the University of Louisiana at Lafayette founded?", "keywords": ["1898", "founded"], "reference_answer": "The University of Louisiana at Lafayette was founded in 1898 as the Southwestern Louisiana Industrial Institute (SLII).", "category": "direct_fact"}
 {"question": "What is the Carnegie Classification of UL Lafayette?", "keywords": ["R1", "Carnegie", "Very High Research Activity"], "reference_answer": "UL Lafayette holds the Carnegie R1 classification \u2014 Doctoral University with Very High Research Activity, placing it in the top 3% of all U.S. universities.", "category": "direct_fact"}
 {"question": "Who is the President of UL Lafayette?", "keywords": ["Ramesh", "Kolluru", "President"], "reference_answer": "Dr. Ramesh Kolluru serves as the President of the University of Louisiana at Lafayette.", "category": "direct_fact"}
 {"question": "What is UL Lafayette's official address?", "keywords": ["104", "University Circle", "Lafayette", "LA 70503"], "reference_answer": "UL Lafayette's official address is 104 E. University Circle, Lafayette, LA 70503.", "category": "direct_fact"}
