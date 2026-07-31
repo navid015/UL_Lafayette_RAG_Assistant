@@ -7,3 +7,4 @@ litellm
 pydantic
 tenacity
 tqdm
+pandas
