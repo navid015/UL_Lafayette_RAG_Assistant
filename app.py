@@ -5,11 +5,6 @@ from pro_implementation.answer import answer_question
 
 load_dotenv(override=True)
 
-# ── UL Lafayette Official Brand Colors ────────────────────────────────────────
-# Vermilion Red : #CC0000
-# Gold          : #F0A500
-# Dark Navy     : #0A1628
-# White         : #FFFFFF
 
 ULL_CSS = """
 /* ── Google Font ─────────────────────────────────────────────────── */
@@ -312,6 +307,63 @@ label, .label-wrap span {
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
 }
+
+/* ── Light/dark lock ─────────────────────────────────────────────────
+   The theme above fixes Gradio's own variables. This block covers the
+   markdown Gradio renders INSIDE chat bubbles, whose nested <p>, <li>,
+   <strong> and <code> tags carry their own colours and would otherwise
+   stay dark-on-dark when the OS is set to light mode.                  */
+
+.gradio-container, .gradio-container.dark, body, body.dark {
+    --body-text-color: var(--ull-text) !important;
+    --body-text-color-subdued: var(--ull-muted) !important;
+    --block-title-text-color: var(--ull-text) !important;
+    --block-label-text-color: var(--ull-muted) !important;
+    --link-text-color: var(--ull-gold) !important;
+    --table-text-color: var(--ull-text) !important;
+    color-scheme: dark;
+}
+
+/* Assistant bubble: force every nested element to light text */
+#chatbot .bot .message, #chatbot .bot .message *,
+#chatbot [data-testid="bot"] .bubble-wrap,
+#chatbot [data-testid="bot"] .bubble-wrap * {
+    color: var(--ull-text) !important;
+}
+
+/* User bubble: white on red */
+#chatbot .user .message, #chatbot .user .message *,
+#chatbot [data-testid="user"] .bubble-wrap,
+#chatbot [data-testid="user"] .bubble-wrap * {
+    color: #FFFFFF !important;
+}
+
+/* Re-assert accents the wildcards above would have flattened */
+#chatbot .message a, #chatbot .bubble-wrap a { color: var(--ull-gold) !important; }
+#chatbot .message code, #chatbot .bubble-wrap code {
+    color: var(--ull-gold) !important;
+    background: rgba(240,165,0,0.10) !important;
+}
+#chatbot .message th, #chatbot .bubble-wrap th { color: var(--ull-gold) !important; }
+
+/* Context panel and its markdown */
+#context-panel, #context-panel *, .prose, .prose * { color: var(--ull-text) !important; }
+#context-panel a, .prose a { color: var(--ull-gold) !important; }
+
+/* Textareas, inputs, placeholders */
+textarea, input[type="text"], .gradio-container textarea {
+    color: var(--ull-text) !important;
+    -webkit-text-fill-color: var(--ull-text) !important;
+}
+textarea::placeholder, input::placeholder {
+    color: var(--ull-muted) !important;
+    -webkit-text-fill-color: var(--ull-muted) !important;
+}
+
+/* Empty-state and misc Gradio chrome */
+.empty, .empty *, .wrap.default, .html-container, .html-container * {
+    color: var(--ull-text) !important;
+}
 """
 
 
@@ -365,18 +417,57 @@ QUICK_QUESTIONS = [
 
 
 def main():
+    # Every Gradio theme variable has a light value and a *_dark twin. The browser
+    # picks which set to use from the OS appearance setting. This app is designed
+    # dark-only, so both twins are given the same value -- otherwise light mode
+    # keeps Gradio's dark grey default text and it vanishes against the navy.
+    NAVY, NAVY2, CARD = "#0A1628", "#112240", "#162032"
+    BORDER, TEXT, MUTED = "#1E3050", "#E8EAF0", "#8A9BBE"
+    RED, RED_HOVER, GOLD = "#CC0000", "#E60000", "#F0A500"
+
     theme = gr.themes.Base(
         font=["Inter", "system-ui", "sans-serif"],
         primary_hue=gr.themes.colors.red,
         neutral_hue=gr.themes.colors.slate,
     ).set(
-        body_background_fill="#0A1628",
-        block_background_fill="#162032",
-        block_border_color="#1E3050",
-        block_label_text_color="#8A9BBE",
-        input_background_fill="#112240",
-        button_primary_background_fill="#CC0000",
-        button_primary_background_fill_hover="#E60000",
+        body_background_fill=NAVY,
+        body_background_fill_dark=NAVY,
+        body_text_color=TEXT,
+        body_text_color_dark=TEXT,
+        body_text_color_subdued=MUTED,
+        body_text_color_subdued_dark=MUTED,
+        block_background_fill=CARD,
+        block_background_fill_dark=CARD,
+        panel_background_fill=CARD,
+        panel_background_fill_dark=CARD,
+        block_border_color=BORDER,
+        block_border_color_dark=BORDER,
+        border_color_primary=BORDER,
+        border_color_primary_dark=BORDER,
+        block_label_text_color=MUTED,
+        block_label_text_color_dark=MUTED,
+        block_title_text_color=TEXT,
+        block_title_text_color_dark=TEXT,
+        block_info_text_color=MUTED,
+        block_info_text_color_dark=MUTED,
+        input_background_fill=NAVY2,
+        input_background_fill_dark=NAVY2,
+        input_placeholder_color=MUTED,
+        input_placeholder_color_dark=MUTED,
+        button_primary_background_fill=RED,
+        button_primary_background_fill_dark=RED,
+        button_primary_background_fill_hover=RED_HOVER,
+        button_primary_background_fill_hover_dark=RED_HOVER,
+        button_primary_text_color="#FFFFFF",
+        button_primary_text_color_dark="#FFFFFF",
+        link_text_color=GOLD,
+        link_text_color_dark=GOLD,
+        link_text_color_hover=GOLD,
+        link_text_color_hover_dark=GOLD,
+        link_text_color_visited=GOLD,
+        link_text_color_visited_dark=GOLD,
+        table_text_color=TEXT,
+        table_text_color_dark=TEXT,
     )
 
     with gr.Blocks(title="UL Lafayette RAG Assistant") as ui:
