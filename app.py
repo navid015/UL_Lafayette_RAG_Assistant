@@ -264,17 +264,42 @@ body, .gradio-container {
 }
 
 /* ── Quick Question Chips ────────────────────────────────────────── */
+/* Chip row: equal-width columns, all stretched to the tallest chip */
+#quick-row {
+    display: flex !important;
+    align-items: stretch !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+}
+#quick-row > * {
+    flex: 1 1 0 !important;
+    min-width: 140px !important;
+    display: flex !important;
+}
+.quick-chip {
+    display: flex !important;
+    flex: 1 1 0 !important;
+}
 .quick-chip button {
     background: var(--ull-navy2) !important;
     color: var(--ull-muted) !important;
     border: 1px solid var(--ull-border) !important;
     border-radius: 20px !important;
     font-size: 0.78rem !important;
-    padding: 6px 14px !important;
+    line-height: 1.3 !important;
+    padding: 8px 14px !important;
     cursor: pointer !important;
     transition: all 0.2s ease !important;
-    white-space: nowrap !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 46px !important;
+    white-space: normal !important;
+    text-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
+
 .quick-chip button:hover {
     background: rgba(204,0,0,0.15) !important;
     border-color: var(--ull-red) !important;
