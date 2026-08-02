@@ -520,7 +520,7 @@ def main():
                 # Quick questions — store refs, wire AFTER context_display is defined
                 gr.HTML("<div style='padding:8px 4px 4px; color:#8A9BBE; font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;'>⚡ Quick Questions</div>")
                 chips = []
-                with gr.Row():
+                with gr.Row(elem_id="quick-row"):
                     for q in QUICK_QUESTIONS:
                         chip = gr.Button(q, elem_classes="quick-chip", size="sm")
                         chips.append((q, chip))
